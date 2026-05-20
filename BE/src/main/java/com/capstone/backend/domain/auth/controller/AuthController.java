@@ -1,0 +1,54 @@
+package com.capstone.backend.domain.auth.controller;
+
+import com.capstone.backend.common.response.ApiResponse;
+import com.capstone.backend.domain.auth.dto.LoginRequest;
+import com.capstone.backend.domain.auth.dto.SignupRequest;
+import com.capstone.backend.domain.auth.dto.SocialLoginRequest;
+import com.capstone.backend.domain.auth.dto.TokenResponse;
+import com.capstone.backend.domain.auth.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/auth")
+@RequiredArgsConstructor
+@Tag(name = "Auth", description = "인증 API")
+public class AuthController {
+
+    private final AuthService authService;
+
+    @Operation(summary = "이메일 회원가입")
+    @PostMapping("/signup")
+    public ResponseEntity<ApiResponse<TokenResponse>> signup(@Valid @RequestBody SignupRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(authService.signup(request)));
+    }
+
+    @Operation(summary = "이메일 로그인")
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<TokenResponse>> login(@Valid @RequestBody LoginRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(authService.login(request)));
+    }
+
+    @Operation(summary = "소셜 로그인 (KAKAO / GOOGLE / APPLE)")
+    @PostMapping("/social")
+    public ResponseEntity<ApiResponse<TokenResponse>> socialLogin(@Valid @RequestBody SocialLoginRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(authService.socialLogin(request)));
+    }
+
+    @Operation(summary = "토큰 재발급", description = "Authorization 헤더에 Refresh Token을 Bearer로 전달")
+    @PostMapping("/token/refresh")
+    public ResponseEntity<ApiResponse<TokenResponse>> refreshToken(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        String refreshToken = authHeader.startsWith("Bearer ")
+                ? authHeader.substring(7)
+                : authHeader;
+        return ResponseEntity.ok(ApiResponse.success(authService.refreshToken(refreshToken)));
+    }
+}

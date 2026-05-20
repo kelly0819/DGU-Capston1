@@ -38,9 +38,10 @@ def upsert_product(
     body: ProductUpsertRequest,
     db: Session = Depends(get_db),
 ):
-    # 실제 로직은 product_service.py에 구현할 예정
-    # 일단은 자리만 잡아두고 NotImplementedError 발생
-    raise HTTPException(status_code=501, detail="구현 예정")
+    try:
+        return product_service.upsert_product(body, db)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 # =========================================
@@ -53,7 +54,10 @@ def get_user_vector(
     category: CategoryMain = Query(..., description="카테고리"),
     db: Session = Depends(get_db),
 ):
-    raise HTTPException(status_code=501, detail="구현 예정")
+    try: 
+        return user_service.get_user_vector(user_id, category, db)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 # =========================================
@@ -65,7 +69,7 @@ def search_similar_products(
     body: SimilarProductsRequest,
     db: Session = Depends(get_db),
 ):
-    raise HTTPException(status_code=501, detail="구현 예정")
+    return search_service.search_similar_products(body, db)
 
 
 # =========================================
@@ -77,7 +81,10 @@ def search_similar_users(
     body: SimilarUsersRequest,
     db: Session = Depends(get_db),
 ):
-    raise HTTPException(status_code=501, detail="구현 예정")
+    try:
+        return search_service.search_similar_users(body, db)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 # =========================================
@@ -89,7 +96,7 @@ def retrieve_reasons(
     body: ReasonRetrieveRequest,
     db: Session = Depends(get_db),
 ):
-    raise HTTPException(status_code=501, detail="구현 예정")
+    return reason_service.retrieve_reasons(body, db)
 
 
 # =========================================
@@ -102,4 +109,7 @@ def add_reason(
     body: ReasonAddRequest,
     db: Session = Depends(get_db),
 ):
-    raise HTTPException(status_code=501, detail="구현 예정")
+    try:
+        return reason_service.add_reason(user_id, body, db)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))

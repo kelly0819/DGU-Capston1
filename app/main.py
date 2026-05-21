@@ -12,6 +12,8 @@ from schemas import (
     CategoryMain,
 )
 
+from services import product_service, user_service, reason_service, search_service
+
 
 app = FastAPI(
     title="Cosmetics VectorDB API",

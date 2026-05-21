@@ -6,7 +6,7 @@ from schemas import (
     ReasonAddRequest, ReasonAddResponse,
     ReasonRetrieveRequest, ReasonRetrieveResponse, ReasonResult,
 )
-from qdrant_client import client as qdrant
+from app.vector_store import client as qdrant
 from embedding import embed_text
 
 

@@ -3,7 +3,7 @@ from qdrant_client.models import PointStruct
 
 from models import Brand, Product, ProductFeature
 from schemas import ProductUpsertRequest, ProductUpsertResponse
-from qdrant_client import client as qdrant, feature_dict_to_vector, get_vector_collection_name
+from app.vector_store import client as qdrant, feature_dict_to_vector, get_vector_collection_name
 
 
 def upsert_product(body: ProductUpsertRequest, db: Session) -> ProductUpsertResponse:

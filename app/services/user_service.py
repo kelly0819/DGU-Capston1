@@ -4,7 +4,7 @@ from qdrant_client.models import PointStruct
 
 from models import User, UserProfile, UserProduct, ProductFeature, Product
 from schemas import UserVectorResponse, CategoryMain
-from app.vector_store import (
+from vector_store import (
     client as qdrant,
     feature_dict_to_vector,
     get_vector_collection_name,

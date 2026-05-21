@@ -6,7 +6,7 @@ from schemas import (
     SimilarProductsRequest, SimilarProductsResponse, ProductSearchResult,
     SimilarUsersRequest, SimilarUsersResponse, UserSearchResult,
 )
-from app.vector_store import client as qdrant, get_vector_collection_name
+from vector_store import client as qdrant, get_vector_collection_name
 
 
 def search_similar_products(body: SimilarProductsRequest, db: Session) -> SimilarProductsResponse:

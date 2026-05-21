@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from qdrant_client.models import PointStruct
 
 from models import Review
-from app.vector_store import client as qdrant
+from vector_store import client as qdrant
 from embedding import embed_text
 
 

@@ -1,0 +1,51 @@
+# 세 컨테이너(Postges + Qdrant + FastAPI) 동시에 띄우기
+services:
+  postgres:
+    image: postgres:16
+    container_name: cosmetics_postgres
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: cosmetics
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./sql/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d cosmetics"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: cosmetics_qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+  api:
+    build: ./app
+    container_name: cosmetics_api
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql://app:app@postgres:5432/cosmetics
+      QDRANT_URL: http://qdrant:6333
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/code
+      - ./scripts:/code/scripts
+      - ./tests:/code/tests
+
+volumes:
+  pgdata:
+  qdrant_storage:

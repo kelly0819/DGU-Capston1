@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+
+# Docker volumes (혹시 로컬에 폴더로 만들어졌다면)
+pgdata/
+qdrant_storage/
+
+# Logs
+*.log
+
+# Model cache (ko-sroberta 다운로드 캐시가 호스트에 떨어진다면)
+.cache/

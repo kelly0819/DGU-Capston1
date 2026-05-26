@@ -24,7 +24,7 @@
 | 분야 | 사용 기술 |
 |------|----------|
 | AI Server | Python 3.11+, FastAPI |
-| Database | PostgreSQL 16, Qdrant |
+| Database | Supabase Cloud (PostgreSQL 16 + pgvector) |
 | LLM | Ollama, EXAONE 3.5, Qwen 2.5, Llama 3.1 |
 | VLM | Qwen2-VL, Llama 3.2 Vision |
 | Embedding | bge-m3, Ko-SRoBERTa |
@@ -38,15 +38,184 @@
 
 ```
 DGU-Capston1/
-├── AI/                    # AI 모듈 (모노레포 형태)
-│   ├── shared/            # AI 모듈 공통 코드 (DB 모델, config, 공통 스키마)
-│   ├── vectordb/          # 벡터 DB 모듈 (Qdrant, 임베딩, 검색 API)
-│   ├── llm/               # LLM 모듈 (Ollama, 프롬프트, reasoning)
-│   ├── vlm/               # VLM 모듈 (이미지 분석, OCR, 상품 정보 추출)
-│   ├── architecture/      # 오케스트레이션 모듈 (Agent 라우팅, RAG)
-│   └── docker-compose.yml
-├── BE/                    # 백엔드 서버
-├── FE/                    # 프론트엔드 (모바일 앱)
+├── AI/                                  # Python FastAPI 단일 프로젝트
+│   ├── main.py                          # FastAPI 앱 진입점
+│   ├── config.py                        # 환경변수 (API 키, Supabase URL 등)
+│   ├── api/
+│   │   └── internal/                    # Spring 전용 내부 라우터
+│   │       ├── recognize_router.py      # POST /internal/recognize
+│   │       └── agent_router.py          # POST /internal/agent/run
+│   ├── graph/                           # LangGraph 오케스트레이션
+│   │   ├── action_model.py              # create_react_agent + @tool 등록 진입점
+│   │   └── state.py                     # AgentState TypedDict
+│   ├── agents/                          # 에이전트 모듈 (각 @tool)
+│   │   ├── input_agent/                 # IMAGE/NFC/TEXT → ExtractedProduct
+│   │   │   ├── image_parser.py
+│   │   │   ├── nfc_parser.py
+│   │   │   └── text_parser.py
+│   │   ├── product_agent/               # DB 조회 + stale 시 Gemini 보강
+│   │   │   ├── product_repository.py
+│   │   │   └── gemini_enricher.py
+│   │   ├── discovery_agent.py           # 자연어 → intent_vector → 후보 탐색
+│   │   ├── score_agent/                 # 4요소 점수 → 0~100점
+│   │   │   ├── budget_scorer.py
+│   │   │   ├── price_scorer.py
+│   │   │   ├── review_scorer.py
+│   │   │   └── personalization_scorer.py
+│   │   ├── alternative_agent.py         # pgvector 유사도 → 대체 상품
+│   │   └── collaborative_agent/         # 협업 필터링 + 콜드스타트 폴백
+│   │       └── fallback.py
+│   ├── services/                        # 공통 서비스
+│   │   ├── embedding_service.py         # bge-m3 임베딩
+│   │   ├── unified_text_builder.py      # query + profile + RAG → 통합 자연어
+│   │   ├── job_updater.py               # recommendation_jobs step/progress 업데이트
+│   │   └── weight_validator.py
+│   ├── db/                              # Supabase + pgvector
+│   │   ├── supabase_client.py
+│   │   ├── vector_search.py             # RPC 래퍼 (match_products 등)
+│   │   └── migrations/                  # 마이그레이션 SQL
+│   ├── models/                          # Pydantic 모델
+│   │   ├── extracted_product.py
+│   │   ├── product_response.py
+│   │   ├── agent_context.py
+│   │   └── recommendation_result.py
+│   ├── prompts/                         # LLM 시스템 프롬프트
+│   │   ├── gemini_extraction.py
+│   │   ├── weight_adjustment.py
+│   │   └── collaborative_strategy.py
+│   ├── tests/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── .env.example
+├── BE/                                  # Spring Boot 백엔드
+│   ├── src/main/java/com/beautymatch/
+│   │   ├── BeautyMatchApplication.java
+│   │   ├── common/
+│   │   │   ├── config/
+│   │   │   │   ├── SecurityConfig.java          # JWT 필터체인, CORS 설정
+│   │   │   │   ├── WebClientConfig.java         # FastAPI 호출용 WebClient 빈
+│   │   │   │   └── JpaConfig.java               # AuditingEntityListener
+│   │   │   ├── exception/
+│   │   │   │   ├── GlobalExceptionHandler.java  # @RestControllerAdvice
+│   │   │   │   ├── ErrorCode.java               # Enum (PRODUCT_NOT_FOUND 등)
+│   │   │   │   └── BusinessException.java
+│   │   │   ├── response/
+│   │   │   │   └── ApiResponse.java             # { success, data, meta }
+│   │   │   └── util/
+│   │   │       └── JwtUtil.java
+│   │   ├── domain/
+│   │   │   ├── auth/                        # 인증 (로그인·회원가입·토큰)
+│   │   │   │   ├── controller/
+│   │   │   │   │   └── AuthController.java          # POST /auth/login, /signup, /social, /token/refresh
+│   │   │   │   ├── service/
+│   │   │   │   │   ├── AuthService.java
+│   │   │   │   │   └── OAuthService.java            # Kakao / Google / Apple 토큰 교환
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── LoginRequest.java
+│   │   │   │   │   ├── SignupRequest.java
+│   │   │   │   │   ├── SocialLoginRequest.java      # { provider, accessToken, fcmToken }
+│   │   │   │   │   └── TokenResponse.java
+│   │   │   │   └── repository/
+│   │   │   │       └── UserRepository.java
+│   │   │   ├── user/                        # 사용자 정보·피부·통계
+│   │   │   │   ├── controller/
+│   │   │   │   │   └── UserController.java          # GET /users/me, PATCH /users/me, /skin-profile
+│   │   │   │   ├── service/
+│   │   │   │   │   ├── UserService.java
+│   │   │   │   │   └── UserProfileService.java
+│   │   │   │   ├── entity/
+│   │   │   │   │   ├── User.java
+│   │   │   │   │   ├── UserProfile.java
+│   │   │   │   │   └── UserBrandPreference.java
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── UserResponse.java
+│   │   │   │   │   ├── SkinProfileRequest.java
+│   │   │   │   │   └── PreferencesRequest.java
+│   │   │   │   └── repository/
+│   │   │   │       ├── UserProfileRepository.java
+│   │   │   │       └── UserBrandPreferenceRepository.java
+│   │   │   ├── product/                     # 상품 조회 (읽기 전용. FastAPI가 write)
+│   │   │   │   ├── controller/
+│   │   │   │   │   ├── ProductController.java       # GET /products, /products/{id}
+│   │   │   │   │   └── ProductRecognizeController.java # POST /products/recognize → FastAPI 위임
+│   │   │   │   ├── service/
+│   │   │   │   │   ├── ProductQueryService.java     # DB 조회 + 응답 조합
+│   │   │   │   │   └── ProductRecognizeService.java # FastAPI 동기 호출
+│   │   │   │   ├── entity/
+│   │   │   │   │   └── Product.java
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── ProductResponse.java         # 상품 상세 응답 (geminiPrice, matchScore 포함)
+│   │   │   │   │   ├── ProductListResponse.java
+│   │   │   │   │   └── RecognizeResponse.java
+│   │   │   │   └── repository/
+│   │   │   │       └── ProductRepository.java
+│   │   │   ├── wishlist/                    # 찜 목록
+│   │   │   │   ├── controller/
+│   │   │   │   │   └── WishlistController.java      # GET / POST / DELETE /users/me/wishlists
+│   │   │   │   ├── service/
+│   │   │   │   │   └── WishlistService.java
+│   │   │   │   ├── entity/
+│   │   │   │   │   └── Wishlist.java
+│   │   │   │   ├── dto/
+│   │   │   │   │   └── WishlistResponse.java
+│   │   │   │   └── repository/
+│   │   │   │       └── WishlistRepository.java
+│   │   │   ├── registered/                  # 등록 제품 (온보딩용)
+│   │   │   │   ├── controller/
+│   │   │   │   │   └── RegisteredProductController.java
+│   │   │   │   ├── service/
+│   │   │   │   │   └── RegisteredProductService.java
+│   │   │   │   ├── entity/
+│   │   │   │   │   └── RegisteredProduct.java
+│   │   │   │   └── repository/
+│   │   │   │       └── RegisteredProductRepository.java
+│   │   │   ├── recommendation/              # 에이전트 요청·상태 관리
+│   │   │   │   ├── controller/
+│   │   │   │   │   └── RecommendationController.java  # POST /recommendations, GET /recommendations/{jobId}, /status
+│   │   │   │   ├── service/
+│   │   │   │   │   ├── RecommendationService.java   # job INSERT + FastAPI 비동기 위임
+│   │   │   │   │   └── AgentClient.java             # WebClient 래퍼: POST /internal/agent/run
+│   │   │   │   ├── entity/
+│   │   │   │   │   └── RecommendationJob.java
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── RecommendationRequest.java
+│   │   │   │   │   ├── RecommendationStatusResponse.java
+│   │   │   │   │   └── RecommendationResultResponse.java
+│   │   │   │   └── repository/
+│   │   │   │       └── RecommendationJobRepository.java
+│   │   │   ├── pricetracking/               # 가격 추적
+│   │   │   │   ├── controller/
+│   │   │   │   │   └── PriceTrackingController.java # GET/POST/PATCH/DELETE /users/me/price-trackings, /history, /alert-settings
+│   │   │   │   ├── service/
+│   │   │   │   │   ├── PriceTrackingService.java
+│   │   │   │   │   └── PriceAlertService.java       # FCM 푸시 알림 속도 로직
+│   │   │   │   ├── entity/
+│   │   │   │   │   ├── PriceTracking.java
+│   │   │   │   │   └── PriceTrackingAlertSettings.java
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── PriceTrackingResponse.java
+│   │   │   │   │   ├── PriceHistoryResponse.java
+│   │   │   │   │   └── AlertSettingsRequest.java
+│   │   │   │   └── repository/
+│   │   │   │       ├── PriceTrackingRepository.java
+│   │   │   │       └── PriceTrackingAlertSettingsRepository.java
+│   │   │   └── notification/                # 알림
+│   │   │       ├── controller/
+│   │   │       │   └── NotificationController.java  # GET /users/me/notifications, PATCH 읽음
+│   │   │       ├── service/
+│   │   │       │   ├── NotificationService.java
+│   │   │       │   └── FcmService.java              # Firebase Admin SDK 래퍼
+│   │   │       ├── entity/
+│   │   │       │   └── Notification.java
+│   │   │       ├── dto/
+│   │   │       │   └── NotificationResponse.java
+│   │   │       └── repository/
+│   │   │           └── NotificationRepository.java
+│   └── src/main/resources/
+│       ├── application.yml
+│       ├── application-local.yml
+│       └── application-prod.yml
+├── FE/                                  # 모바일 앱 프론트엔드
 ├── .gitignore
 ├── LICENSE
 └── README.md

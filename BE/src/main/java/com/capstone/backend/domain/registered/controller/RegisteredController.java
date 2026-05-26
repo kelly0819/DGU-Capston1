@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/registered")
 @RequiredArgsConstructor
@@ -15,15 +17,15 @@ public class RegisteredController {
     private final RegisteredService registeredService;
 
     @PostMapping("/{productId}")
-    public ResponseEntity<ApiResponse<Void>> register(@PathVariable Long productId) {
-        Long userId = SecurityUtil.getCurrentUserId();
+    public ResponseEntity<ApiResponse<Void>> register(@PathVariable UUID productId) {
+        UUID userId = SecurityUtil.getCurrentUserId();
         registeredService.register(userId, productId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     @DeleteMapping("/{registeredId}")
-    public ResponseEntity<ApiResponse<Void>> unregister(@PathVariable Long registeredId) {
-        Long userId = SecurityUtil.getCurrentUserId();
+    public ResponseEntity<ApiResponse<Void>> unregister(@PathVariable UUID registeredId) {
+        UUID userId = SecurityUtil.getCurrentUserId();
         registeredService.unregister(userId, registeredId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }

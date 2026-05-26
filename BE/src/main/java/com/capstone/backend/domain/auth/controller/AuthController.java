@@ -1,8 +1,6 @@
 package com.capstone.backend.domain.auth.controller;
 
 import com.capstone.backend.common.response.ApiResponse;
-import com.capstone.backend.domain.auth.dto.LoginRequest;
-import com.capstone.backend.domain.auth.dto.SignupRequest;
 import com.capstone.backend.domain.auth.dto.SocialLoginRequest;
 import com.capstone.backend.domain.auth.dto.TokenResponse;
 import com.capstone.backend.domain.auth.service.AuthService;
@@ -11,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,20 +20,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Operation(summary = "이메일 회원가입")
-    @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<TokenResponse>> signup(@Valid @RequestBody SignupRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(authService.signup(request)));
-    }
-
-    @Operation(summary = "이메일 로그인")
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponse<TokenResponse>> login(@Valid @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(authService.login(request)));
-    }
-
-    @Operation(summary = "소셜 로그인 (KAKAO / GOOGLE / APPLE)")
+    @Operation(summary = "카카오 소셜 로그인")
     @PostMapping("/social")
     public ResponseEntity<ApiResponse<TokenResponse>> socialLogin(@Valid @RequestBody SocialLoginRequest request) {
         return ResponseEntity.ok(ApiResponse.success(authService.socialLogin(request)));

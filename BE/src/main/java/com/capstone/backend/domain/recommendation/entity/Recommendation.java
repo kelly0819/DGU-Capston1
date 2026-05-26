@@ -5,8 +5,6 @@ import com.capstone.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "recommendation_jobs")
 @Getter
@@ -16,9 +14,8 @@ import java.util.UUID;
 public class Recommendation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private UUID id;
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

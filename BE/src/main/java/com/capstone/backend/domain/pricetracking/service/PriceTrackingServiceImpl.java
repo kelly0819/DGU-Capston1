@@ -5,6 +5,7 @@ import com.capstone.backend.domain.pricetracking.repository.PriceTrackingReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -15,6 +16,6 @@ public class PriceTrackingServiceImpl implements PriceTrackingService {
 
     @Override
     public List<PriceTrackingDto.Response> getPriceHistory(Long productId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return Collections.emptyList();
     }
 }

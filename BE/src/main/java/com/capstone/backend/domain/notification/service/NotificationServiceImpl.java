@@ -5,7 +5,9 @@ import com.capstone.backend.domain.notification.repository.NotificationRepositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -14,17 +16,15 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
 
     @Override
-    public List<NotificationDto.Response> getNotifications(Long userId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public List<NotificationDto.Response> getNotifications(UUID userId) {
+        return Collections.emptyList();
     }
 
     @Override
-    public void markAsRead(Long userId, Long notificationId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void markAsRead(UUID userId, UUID notificationId) {
     }
 
     @Override
-    public void markAllAsRead(Long userId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void markAllAsRead(UUID userId) {
     }
 }

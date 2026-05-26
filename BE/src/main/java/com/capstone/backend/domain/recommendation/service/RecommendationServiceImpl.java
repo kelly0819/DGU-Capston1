@@ -5,7 +5,9 @@ import com.capstone.backend.domain.recommendation.repository.RecommendationRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -14,7 +16,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     private final RecommendationRepository recommendationRepository;
 
     @Override
-    public List<RecommendationDto.Response> getRecommendations(Long userId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public List<RecommendationDto.Response> getRecommendations(UUID userId) {
+        return Collections.emptyList();
     }
 }

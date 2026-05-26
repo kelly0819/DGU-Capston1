@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/wishlists")
@@ -19,19 +20,19 @@ public class WishlistController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<WishlistDto.Response>> addWishlist(@RequestBody WishlistDto.Request request) {
-        Long userId = SecurityUtil.getCurrentUserId();
+        UUID userId = SecurityUtil.getCurrentUserId();
         return ResponseEntity.ok(ApiResponse.success(wishlistService.addWishlist(userId, request)));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<WishlistDto.Response>>> getWishlists() {
-        Long userId = SecurityUtil.getCurrentUserId();
+        UUID userId = SecurityUtil.getCurrentUserId();
         return ResponseEntity.ok(ApiResponse.success(wishlistService.getWishlists(userId)));
     }
 
     @DeleteMapping("/{wishlistId}")
-    public ResponseEntity<ApiResponse<Void>> removeWishlist(@PathVariable Long wishlistId) {
-        Long userId = SecurityUtil.getCurrentUserId();
+    public ResponseEntity<ApiResponse<Void>> removeWishlist(@PathVariable UUID wishlistId) {
+        UUID userId = SecurityUtil.getCurrentUserId();
         wishlistService.removeWishlist(userId, wishlistId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/recommendations")
@@ -19,7 +20,7 @@ public class RecommendationController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<RecommendationDto.Response>>> getRecommendations() {
-        Long userId = SecurityUtil.getCurrentUserId();
+        UUID userId = SecurityUtil.getCurrentUserId();
         return ResponseEntity.ok(ApiResponse.success(recommendationService.getRecommendations(userId)));
     }
 }

@@ -4,6 +4,8 @@ import com.capstone.backend.domain.registered.repository.RegisteredRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class RegisteredServiceImpl implements RegisteredService {
@@ -11,12 +13,10 @@ public class RegisteredServiceImpl implements RegisteredService {
     private final RegisteredRepository registeredRepository;
 
     @Override
-    public void register(Long userId, Long productId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void register(UUID userId, UUID productId) {
     }
 
     @Override
-    public void unregister(Long userId, Long registeredId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void unregister(UUID userId, UUID registeredId) {
     }
 }

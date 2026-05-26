@@ -1,5 +1,7 @@
 package com.capstone.backend.domain.user.service;
 
+import com.capstone.backend.common.exception.BusinessException;
+import com.capstone.backend.common.exception.ErrorCode;
 import com.capstone.backend.domain.user.dto.UserDto;
 import com.capstone.backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +17,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto.Response getMyInfo(UUID userId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new BusinessException(ErrorCode.NOT_FOUND);
     }
 
     @Override
     public UserDto.Response updateMyInfo(UUID userId, UserDto.Request request) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new BusinessException(ErrorCode.NOT_FOUND);
     }
 
     @Override
     public void deleteUser(UUID userId) {
-        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

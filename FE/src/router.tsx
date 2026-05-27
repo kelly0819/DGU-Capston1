@@ -7,6 +7,10 @@ import { PhotoRegisterPage } from "./pages/onboarding/PhotoRegisterPage";
 import { ProductSearchSetupPage } from "./pages/onboarding/ProductSearchSetupPage";
 import { SearchEmptyPage } from "./pages/onboarding/SearchEmptyPage";
 import { OnboardingCompletePage } from "./pages/onboarding/OnboardingCompletePage";
+import { HomePage } from "./pages/home/HomePage";
+import { SearchResultPage } from "./pages/search/SearchResultPage";
+import { ProductDetailPage } from "./pages/product/ProductDetailPage";
+import { NotificationPage } from "./pages/notification/NotificationPage";
 
 export const router = createBrowserRouter([
   {
@@ -40,5 +44,21 @@ export const router = createBrowserRouter([
   {
     path: "/onboarding/complete",
     element: <OnboardingCompletePage />,
+  },
+  {
+    path: "/home",
+    element: <HomePage />,
+  },
+  {
+    path: "/search",
+    element: <SearchResultPage />,
+  },
+  {
+    path: "/product/:productId",
+    element: <ProductDetailPage />,
+  },
+  {
+    path: "/notifications",
+    element: <NotificationPage />,
   },
 ]);

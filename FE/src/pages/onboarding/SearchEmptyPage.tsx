@@ -1,4 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import { Badge } from "../../components/common/Badge";
+import { PageHeader } from "../../components/common/PageHeader";
+import { ProductThumbnail } from "../../components/common/ProductThumbnail";
+import { SearchField } from "../../components/common/SearchField";
 import AppLayout from "../../layouts/AppLayout";
 
 const suggestions = [
@@ -12,24 +16,10 @@ export function SearchEmptyPage() {
   return (
     <AppLayout>
       <section className="flex min-h-screen flex-col px-6 pb-6 pt-10">
-        <header className="relative flex h-6 items-center justify-center">
-          <button
-            className="absolute left-0 text-h3 text-gray-500"
-            onClick={() => navigate(-1)}
-            type="button"
-            aria-label="뒤로가기"
-          >
-            ←
-          </button>
-          <h1 className="text-body1 text-gray-500">검색 결과</h1>
-        </header>
+        <PageHeader title="검색 결과" onBack={() => navigate(-1)} />
 
-        <div className="mt-5 flex h-12 items-center gap-3 rounded-xl border border-primary-500 bg-primary-50 px-4">
-          <div className="h-5 w-5 rounded bg-primary-100" />
-          <span className="flex-1 text-body2 text-gray-500">아이오페 레티놀 앰플</span>
-          <button className="h-6 w-6 rounded-full bg-gray-200 text-gray-300" type="button">
-            ×
-          </button>
+        <div className="mt-5">
+          <SearchField value="아이오페 레티놀 앰플" variant="outlined" onClear={() => undefined} />
         </div>
 
         <div className="mt-10 text-center">
@@ -75,19 +65,11 @@ export function SearchEmptyPage() {
               className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-3"
               key={product.name}
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gray-100">
-                <div
-                  className={`h-9 w-9 rounded-md ${
-                    index === 0 ? "bg-primary-100" : "bg-gray-200"
-                  }`}
-                />
-              </div>
+              <ProductThumbnail className="h-14 w-14 shrink-0" green={index === 0} size="sm" />
               <div>
                 <p className="text-body2 text-gray-500">{product.name}</p>
                 <p className="text-caption text-gray-300">{product.desc}</p>
-                <span className="mt-2 inline-block rounded-full bg-primary-100 px-3 py-1 text-caption text-primary-500">
-                  {product.match}
-                </span>
+                <Badge className="mt-2 inline-block">{product.match}</Badge>
               </div>
             </div>
           ))}

@@ -19,12 +19,22 @@ public class ProductInsight {
     @Column(name = "id")
     private UUID id;
 
+<<<<<<< HEAD
     @Column(name = "product_id", nullable = false, unique = true)
     private UUID productId;
+=======
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false, unique = true)
+    private Product product;
+
+    @Column(name = "original_price")
+    private Integer originalPrice;
+>>>>>>> 297f7cb (chore: stash:)
 
     @Column(name = "lowest_price")
     private Integer lowestPrice;
 
+<<<<<<< HEAD
     @Column(name = "current_price")
     private Integer currentPrice;
 
@@ -33,4 +43,11 @@ public class ProductInsight {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+=======
+    @Column(name = "stores", columnDefinition = "jsonb")
+    private String stores;
+
+    @Column(name = "last_updated_at")
+    private LocalDateTime lastUpdatedAt;
+>>>>>>> 297f7cb (chore: stash:)
 }

@@ -1,10 +1,12 @@
 package com.capstone.backend.domain.notification.entity;
 
-import com.capstone.backend.domain.user.entity.User;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -20,9 +22,8 @@ public class Notification {
     @Column(name = "id")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
 
     @Column(name = "type", nullable = false)
     private String type;
@@ -38,6 +39,10 @@ public class Notification {
 
     @Column(name = "action_url")
     private String actionUrl;
+
+    @Type(JsonType.class)
+    @Column(name = "metadata", columnDefinition = "jsonb")
+    private Map<String, Object> metadata;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

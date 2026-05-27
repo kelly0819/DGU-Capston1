@@ -2,6 +2,7 @@ package com.capstone.backend.common.exception;
 
 import com.capstone.backend.common.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +33,13 @@ public class GlobalExceptionHandler {
                         message,
                         ErrorCode.VALIDATION_ERROR.getStatus().value()
                 ));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleJsonParseException(HttpMessageNotReadableException e) {
+        return ResponseEntity
+                .status(ErrorCode.VALIDATION_ERROR.getStatus())
+                .body(ApiResponse.error(ErrorCode.VALIDATION_ERROR));
     }
 
     @ExceptionHandler(Exception.class)

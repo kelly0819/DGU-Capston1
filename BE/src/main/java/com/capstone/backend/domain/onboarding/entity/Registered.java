@@ -1,4 +1,4 @@
-package com.capstone.backend.domain.registered.entity;
+package com.capstone.backend.domain.onboarding.entity;
 
 import com.capstone.backend.domain.product.entity.Product;
 import com.capstone.backend.domain.user.entity.User;

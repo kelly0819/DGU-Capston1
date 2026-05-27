@@ -35,6 +35,9 @@ public class User {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    @Column(name = "gender", length = 10)
+    private String gender;
+
     @Column(name = "provider", nullable = false)
     private String provider;
 
@@ -62,5 +65,11 @@ public class User {
 
     public void completeOnboarding() {
         this.onboardingCompleted = true;
+    }
+
+    public void updateProfile(String name, String gender, String profileImageUrl) {
+        if (name != null) this.name = name;
+        if (gender != null) this.gender = gender;
+        if (profileImageUrl != null) this.profileImageUrl = profileImageUrl;
     }
 }

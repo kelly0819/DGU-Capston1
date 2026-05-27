@@ -4,14 +4,17 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
     show-sql: true
+    open-in-view: false
 
   jackson:
     naming-strategy: com.fasterxml.jackson.databind.PropertyNamingStrategies$LowerCamelCaseStrategy
+    serialization:
+      write-dates-as-timestamps: false
 
 server:
   port: 8080
@@ -23,6 +26,11 @@ jwt:
 
 ai:
   server-url: ${AI_SERVER_URL}   # FastAPI 주소
+
+supabase:
+  url: ${SUPABASE_URL}
+  service-role-key: ${SUPABASE_SERVICE_ROLE_KEY}
+  storage-url: ${SUPABASE_URL}/storage/v1/object
 
 springdoc:
   api-docs:

@@ -9,8 +9,25 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str
     GEMINI_MODEL: str = "gemini-2.0-flash"
 
+    # Supabase
+    SUPABASE_URL: str
+    SUPABASE_SERVICE_KEY: str
+
+    # Embedding 
+    EMBEDDING_MODEL: str = "BAAI/bge-m3"
+    EMBEDDING_DEVICE: str = "cpu"
+    EMBEDDING_USE_FP16: bool = False
+    HF_HOME: str = "/app/.cache/huggingface"
+
+    # Vector search
+    VECTOR_SEARCH_EF_SEARCH: int = 40
+
+    # Monitoring
+    LANGSMITH_API_KEY: str = ""
+
     class Config:
         env_file = ".env"
+        extra = "ignore"
 
 
 settings = Settings()

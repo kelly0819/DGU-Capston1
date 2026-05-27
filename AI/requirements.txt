@@ -1,5 +1,18 @@
-# AI 모듈 의존성 — 후속 PR에서 채움
-fastapi
-uvicorn[standard]
-pydantic>=2.6
-pydantic-settings>=2.2
+# Web framework
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+
+# Configuration
+pydantic>=2.6.0
+pydantic-settings>=2.2.0
+
+# Supabase
+supabase>=2.5.0
+
+# Embedding
+FlagEmbedding>=1.2.10
+numpy>=1.26.0
+
+# Testing
+pytest>=8.0.0
+pytest-asyncio>=0.23.0

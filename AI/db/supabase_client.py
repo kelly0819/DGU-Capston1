@@ -11,14 +11,13 @@ from functools import lru_cache
 
 from supabase import Client, create_client
 
-from config import get_settings
+from config import settings
 
 
 @lru_cache(maxsize=1)
 def get_supabase() -> Client:
     """Supabase service_role 클라이언트 싱글톤."""
-    settings = get_settings()
     return create_client(
-        settings.supabase_url,
-        settings.supabase_service_key,
+        settings.SUPABASE_URL,
+        settings.SUPABASE_SERVICE_KEY,
     )

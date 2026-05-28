@@ -11,6 +11,10 @@ import { HomePage } from "./pages/home/HomePage";
 import { SearchResultPage } from "./pages/search/SearchResultPage";
 import { ProductDetailPage } from "./pages/product/ProductDetailPage";
 import { NotificationPage } from "./pages/notification/NotificationPage";
+import { ProductLookupPage } from "./pages/recommendation/ProductLookupPage";
+import { ExtraInfoPage } from "./pages/recommendation/ExtraInfoPage";
+import { RecommendationLoadingPage } from "./pages/recommendation/RecommendationLoadingPage";
+import { RecommendationResultPage } from "./pages/recommendation/RecommendationResultPage";
 
 export const router = createBrowserRouter([
   {
@@ -60,5 +64,21 @@ export const router = createBrowserRouter([
   {
     path: "/notifications",
     element: <NotificationPage />,
+  },
+  {
+    path: "/recommendation/lookup",
+    element: <ProductLookupPage />,
+  },
+  {
+    path: "/recommendation/extra-info",
+    element: <ExtraInfoPage />,
+  },
+  {
+    path: "/recommendation/loading",
+    element: <RecommendationLoadingPage />,
+  },
+  {
+    path: "/recommendation/result",
+    element: <RecommendationResultPage />,
   },
 ]);

@@ -249,6 +249,46 @@ docker compose up -d
 > ⚠️ `.env` 와 `venv/` 는 절대 커밋하지 마세요.
 
 ---
+# Backend (Spring Boot)
+
+## 시작하기
+
+### 사전 요구사항
+
+- Git, Docker, Docker Compose
+
+### 설치 및 실행
+
+```bash
+# 1. 레포 클론 (이미 클론했다면 생략)
+git clone https://github.com/kelly0819/DGU-Capston1.git
+cd DGU-Capston1/BE
+
+# 2. 환경 변수 설정
+# application-local.yml 생성 방법은 노션 참고
+# 노션 > 종합설계 > 문서 > 📁 디렉토리 구조 (Spring + Python)
+
+# 3. 빌드 및 실행
+docker compose up -d
+```
+
+서버가 뜨면 아래 주소에서 API 명세 확인:
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
+### 로컬 직접 실행 (Java 17 설치된 경우)
+
+```bash
+cd BE
+./gradlew bootRun
+```
+
+---
+
+⚠️ `application-local.yml` 은 절대 커밋하지 마세요.
+
 
 ## 개발 컨벤션
 

@@ -1,11 +1,13 @@
 package com.capstone.backend.domain.wishlist.service;
 
-import com.capstone.backend.domain.wishlist.dto.WishlistDto;
+import com.capstone.backend.domain.wishlist.dto.WishlistAddRequest;
+import com.capstone.backend.domain.wishlist.dto.WishlistAddResponse;
+import com.capstone.backend.domain.wishlist.dto.WishlistListResponse;
 
-import java.util.List;
+import java.util.UUID;
 
 public interface WishlistService {
-    WishlistDto.Response addWishlist(Long userId, WishlistDto.Request request);
-    List<WishlistDto.Response> getWishlists(Long userId);
-    void removeWishlist(Long userId, Long wishlistId);
+    WishlistAddResponse addWishlist(UUID userId, WishlistAddRequest request);
+    WishlistListResponse getWishlists(UUID userId, int page, int size);
+    void removeWishlist(UUID userId, UUID wishlistId);
 }

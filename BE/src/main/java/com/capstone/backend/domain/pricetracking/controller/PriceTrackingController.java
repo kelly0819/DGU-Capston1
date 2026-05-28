@@ -3,6 +3,7 @@ package com.capstone.backend.domain.pricetracking.controller;
 import com.capstone.backend.common.response.ApiResponse;
 import com.capstone.backend.domain.pricetracking.dto.PriceTrackingDto;
 import com.capstone.backend.domain.pricetracking.service.PriceTrackingService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/price-tracking")
 @RequiredArgsConstructor
+@Tag(name = "5. Price Tracking", description = "가격 추적 API")
 public class PriceTrackingController {
 
     private final PriceTrackingService priceTrackingService;

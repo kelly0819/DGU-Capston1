@@ -1,11 +1,11 @@
 package com.capstone.backend.domain.notification.service;
 
-import com.capstone.backend.domain.notification.dto.NotificationDto;
+import com.capstone.backend.domain.notification.dto.response.NotificationListResponse;
 
-import java.util.List;
+import java.util.UUID;
 
 public interface NotificationService {
-    List<NotificationDto.Response> getNotifications(Long userId);
-    void markAsRead(Long userId, Long notificationId);
-    void markAllAsRead(Long userId);
+    NotificationListResponse getNotifications(UUID userId, String type, int page, int size);
+    int markAllAsRead(UUID userId);
+    UUID markAsRead(UUID userId, UUID notificationId);
 }

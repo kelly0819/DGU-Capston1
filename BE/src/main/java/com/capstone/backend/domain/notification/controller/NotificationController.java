@@ -2,10 +2,14 @@ package com.capstone.backend.domain.notification.controller;
 
 import com.capstone.backend.common.response.ApiResponse;
 import com.capstone.backend.domain.notification.dto.response.NotificationListResponse;
+import com.capstone.backend.domain.notification.dto.response.NotificationResponse;
 import com.capstone.backend.domain.notification.service.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +52,29 @@ public class NotificationController {
             @PathVariable UUID notificationId) {
         UUID readId = notificationService.markAsRead(userId, notificationId);
         return ResponseEntity.ok(ApiResponse.success(Map.of("notificationId", readId, "isRead", true)));
+    }
+
+    @Operation(summary = "[테스트] 알림 생성", description = "DB에 알림을 직접 생성합니다. 개발/테스트 전용.")
+    @PostMapping("/test")
+    public ResponseEntity<ApiResponse<NotificationResponse>> createTestNotification(
+            @AuthenticationPrincipal UUID userId,
+            @RequestBody TestNotificationRequest request) {
+        NotificationResponse result = notificationService.createTestNotification(
+                userId,
+                request.getType(),
+                request.getTitle(),
+                request.getBody(),
+                request.getActionUrl()
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(result));
+    }
+
+    @Getter
+    @NoArgsConstructor
+    static class TestNotificationRequest {
+        private String type;
+        private String title;
+        private String body;
+        private String actionUrl;
     }
 }

@@ -65,7 +65,7 @@ public class WishlistServiceImpl implements WishlistService {
         List<WishlistItemResponse> items = pageResult.getContent().stream()
                 .map(w -> {
                     ProductInsight insight = productInsightRepository
-                            .findByProductId(w.getProduct().getId()).orElse(null);
+                            .findByProduct_Id(w.getProduct().getId()).orElse(null);
                     return WishlistItemResponse.of(w, insight);
                 })
                 .collect(Collectors.toList());

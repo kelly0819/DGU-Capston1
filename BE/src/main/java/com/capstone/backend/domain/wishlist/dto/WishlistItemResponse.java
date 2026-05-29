@@ -24,8 +24,8 @@ public class WishlistItemResponse {
         private String name;
         private String brand;
         private String imageUrl;
-        private Integer currentPrice;
-        private Integer lowestPrice;
+        private Integer currentPrice;   // product.originalPrice (정가)
+        private Integer lowestPrice;    // productInsight.lowestPrice (현재 최저가)
     }
 
     public static WishlistItemResponse of(Wishlist wishlist, ProductInsight insight) {
@@ -37,7 +37,7 @@ public class WishlistItemResponse {
                         .name(p.getName())
                         .brand(p.getBrand())
                         .imageUrl(p.getImageUrl())
-                        .currentPrice(insight != null ? insight.getCurrentPrice() : null)
+                        .currentPrice(p.getOriginalPrice())
                         .lowestPrice(insight != null ? insight.getLowestPrice() : null)
                         .build())
                 .matchScore(wishlist.getMatchScore())

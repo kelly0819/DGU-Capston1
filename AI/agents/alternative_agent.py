@@ -60,7 +60,7 @@ async def run_alternative(
                 brand=meta["brand"],
                 image_url=meta["image_url"],
                 price=meta["price"],
-                ingredient_similarity=round(m["similarity"] * 100),
+                ingredient_similarity=max(0, min(100, round(m["similarity"] * 100))),
             )
         )
     return results

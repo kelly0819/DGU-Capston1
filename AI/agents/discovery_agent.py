@@ -99,7 +99,7 @@ async def run_discovery(
 #      반환 dict는 candidates만 LLM에 전달하고 intent_vector는 공유 상태
 #      (AgentState/AgentContext)에 저장해 score_agent가 읽도록 한다.
 #      아래 래퍼는 full result를 반환하므로, 오케스트레이터가 state에 넣을 때
-#      dintent_vector를 LLM 메시지에서 제외하는 처리를 해야 한다.
+#      intent_vector를 LLM 메시지에서 제외하는 처리를 해야 한다.
 
 try:
     from langchain_core.tools import tool

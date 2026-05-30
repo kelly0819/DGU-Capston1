@@ -3,17 +3,7 @@ import { PageHeader } from "../../components/common/PageHeader";
 import { ProductThumbnail } from "../../components/common/ProductThumbnail";
 import { SearchField } from "../../components/common/SearchField";
 import AppLayout from "../../layouts/AppLayout";
-
-const products = [
-  { name: "그린티 세럼", meta: "이니스프리 · 스킨케어 · 세럼", added: true },
-  { name: "그린티 씨드 크림", meta: "이니스프리 · 스킨케어 · 세럼" },
-  { name: "화산송이 모공 폼", meta: "이니스프리 · 클렌징" },
-];
-
-const recentProducts = [
-  { name: "그린티 세럼", brand: "이니스프리", green: true },
-  { name: "네오쿠션 21N", brand: "라네즈" },
-];
+import { onboardingRecentProducts, onboardingSearchProducts } from "../../mocks/products";
 
 export function ProductSearchSetupPage() {
   const navigate = useNavigate();
@@ -39,7 +29,7 @@ export function ProductSearchSetupPage() {
         </div>
 
         <div className="mt-3 grid gap-3">
-          {products.map((product) => (
+          {onboardingSearchProducts.map((product) => (
             <div
               className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-3"
               key={product.name}
@@ -66,7 +56,7 @@ export function ProductSearchSetupPage() {
 
         <p className="mt-5 text-body2 text-gray-500">최근 추가한 제품</p>
         <div className="mt-3 flex gap-3">
-          {recentProducts.map((product) => (
+          {onboardingRecentProducts.map((product) => (
             <div
               className="w-[102px] rounded-xl border border-gray-200 bg-white p-2 text-center"
               key={product.name}

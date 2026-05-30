@@ -2,12 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { PageHeader } from "../../components/common/PageHeader";
 import { ProductThumbnail } from "../../components/common/ProductThumbnail";
 import AppLayout from "../../layouts/AppLayout";
-
-const similarProducts = [
-  { name: "네오쿠션 매트", brand: "라네즈 · 만족도 96%", price: "28,000원", green: true },
-  { name: "노세범 파우더", brand: "이니스프리 · 리오더 1위", price: "8,000원" },
-  { name: "시카 톤업", brand: "닥터지 · 진정", price: "18,000원", green: true },
-];
+import { similarRecommendationProducts } from "../../mocks/recommendations";
 
 export function RecommendationResultPage() {
   const navigate = useNavigate();
@@ -39,7 +34,7 @@ export function RecommendationResultPage() {
           <h2 className="text-body1 text-gray-500">나와 비슷한 사람들은?</h2>
           <p className="text-caption text-gray-300">수부지·지성 타입의 실제 만족 제품</p>
           <div className="mt-3 flex gap-3 overflow-x-auto">
-            {similarProducts.map((product) => (
+            {similarRecommendationProducts.map((product) => (
               <article className="min-w-[154px] rounded-2xl border border-gray-200 bg-white p-3 text-center" key={product.name}>
                 <ProductThumbnail className="h-[94px] bg-primary-50" green={product.green} size="wide" />
                 <p className="mt-3 truncate text-body2 text-gray-500">{product.name}</p>

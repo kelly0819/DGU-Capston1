@@ -1,31 +1,5 @@
 import AppLayout from "../../layouts/AppLayout";
-
-const agentTools = [
-  {
-    name: "VLM",
-    action: "제품 이미지 인식",
-    detail: "브랜드, 제품명, 카테고리 추출",
-    call: "call_input_agent()",
-  },
-  {
-    name: "Score",
-    action: "매칭 점수 계산",
-    detail: "피부 타입과 성분 적합도 비교",
-    call: "call_score_agent()",
-  },
-  {
-    name: "Alternative",
-    action: "대체상품 탐색",
-    detail: "가격대와 유사 성분 후보 검색",
-    call: "call_alternative_agent()",
-  },
-  {
-    name: "Report",
-    action: "추천 리포트 생성",
-    detail: "추천 이유와 구매 후보 정리",
-    call: "final_answer",
-  },
-];
+import { agentTools } from "../../mocks/recommendations";
 
 export function RecommendationLoadingPage() {
   return (

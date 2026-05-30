@@ -3,14 +3,7 @@ import { Badge } from "../../components/common/Badge";
 import { ProductThumbnail } from "../../components/common/ProductThumbnail";
 import { SearchField } from "../../components/common/SearchField";
 import AppLayout from "../../layouts/AppLayout";
-
-const recommendedProducts = [
-  { name: "글래스 레이어 쿠션", match: "98% 적합", price: "32,000원", green: true },
-  { name: "에어리 피팅 파데", match: "92% 적합", price: "28,000원" },
-  { name: "톤업 선 쿠션", match: "90% 적합", price: "24,000원", green: true },
-];
-
-const recentProducts = ["그린티 세럼", "시카 앰플", "진정 크림", "시카 토너"];
+import { homeRecommendedProducts, recentProductNames } from "../../mocks/products";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -82,7 +75,7 @@ export function HomePage() {
             </button>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-1">
-            {recommendedProducts.map((product) => (
+            {homeRecommendedProducts.map((product) => (
               <button
                 className="min-w-[154px] rounded-2xl border border-gray-200 bg-white p-3 text-left"
                 key={product.name}
@@ -110,7 +103,7 @@ export function HomePage() {
         <section className="mt-4">
           <h2 className="text-body1 text-gray-500">최근 본 상품</h2>
           <div className="mt-3 flex gap-3 overflow-x-auto">
-            {recentProducts.map((product) => (
+            {recentProductNames.map((product) => (
               <div
                 className="min-w-[96px] rounded-xl border border-gray-200 bg-white p-2 text-center"
                 key={product}

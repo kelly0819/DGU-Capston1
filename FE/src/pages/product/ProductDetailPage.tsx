@@ -3,12 +3,7 @@ import { Badge } from "../../components/common/Badge";
 import { PageHeader } from "../../components/common/PageHeader";
 import { ProductThumbnail } from "../../components/common/ProductThumbnail";
 import AppLayout from "../../layouts/AppLayout";
-
-const stores = [
-  { name: "올리브영에서 구매가능", price: "28,600원", best: true, green: true },
-  { name: "쿠팡에서 구매가능", price: "29,900원" },
-  { name: "네이버쇼핑에서 확인하기", price: "31,200원" },
-];
+import { productDetailStores } from "../../mocks/products";
 
 export function ProductDetailPage() {
   const navigate = useNavigate();
@@ -52,7 +47,7 @@ export function ProductDetailPage() {
 
         <h2 className="mt-5 text-body2 text-gray-500">최저가 구매처 안내</h2>
         <div className="mt-3 grid gap-3">
-          {stores.map((store) => (
+          {productDetailStores.map((store) => (
             <div
               className={`flex items-center gap-4 rounded-xl border bg-white p-4 ${
                 store.best ? "border-primary-500" : "border-gray-200"

@@ -4,11 +4,7 @@ import { PageHeader } from "../../components/common/PageHeader";
 import { ProductThumbnail } from "../../components/common/ProductThumbnail";
 import { SearchField } from "../../components/common/SearchField";
 import AppLayout from "../../layouts/AppLayout";
-
-const suggestions = [
-  { name: "토리든 다이브인 세럼", desc: "레티놀 대신 히알루론산 기반", match: "85% 적합" },
-  { name: "에스트라 아토베리어 크림", desc: "진정·장벽 강화 성분 함유", match: "82% 적합" },
-];
+import { searchEmptySuggestions } from "../../mocks/products";
 
 export function SearchEmptyPage() {
   const navigate = useNavigate();
@@ -60,7 +56,7 @@ export function SearchEmptyPage() {
         </div>
 
         <div className="mt-3 grid gap-3">
-          {suggestions.map((product, index) => (
+          {searchEmptySuggestions.map((product, index) => (
             <div
               className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-3"
               key={product.name}

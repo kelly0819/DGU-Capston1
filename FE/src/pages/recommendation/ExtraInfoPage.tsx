@@ -2,15 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageHeader } from "../../components/common/PageHeader";
 import AppLayout from "../../layouts/AppLayout";
-
-const reasons = ["데일리", "선물용", "여행용", "특별일"];
-const priceRanges = [
-  { id: "same", title: "±0", desc: "딱 맞게" },
-  { id: "flex", title: "±5%", desc: "조금 유연" },
-  { id: "balanced", title: "±10%", desc: "적당히" },
-  { id: "wide", title: "±20%", desc: "넉넉하게" },
-  { id: "any", title: "∞", desc: "상관 없음" },
-];
+import { recommendationPriceRanges, recommendationReasons } from "../../mocks/recommendations";
 
 export function ExtraInfoPage() {
   const navigate = useNavigate();
@@ -49,7 +41,7 @@ export function ExtraInfoPage() {
         </label>
 
         <div className="mt-3 flex gap-2">
-          {reasons.map((item) => (
+          {recommendationReasons.map((item) => (
             <button
               className={`h-9 rounded-full px-4 text-caption ${
                 reason === item ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-500"
@@ -74,7 +66,7 @@ export function ExtraInfoPage() {
         </div>
 
         <div className="mt-6 grid grid-cols-5 gap-2">
-          {priceRanges.map((item) => {
+          {recommendationPriceRanges.map((item) => {
             const selected = priceRange === item.id;
 
             return (

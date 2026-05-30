@@ -15,6 +15,12 @@ import { ProductLookupPage } from "./pages/recommendation/ProductLookupPage";
 import { ExtraInfoPage } from "./pages/recommendation/ExtraInfoPage";
 import { RecommendationLoadingPage } from "./pages/recommendation/RecommendationLoadingPage";
 import { RecommendationResultPage } from "./pages/recommendation/RecommendationResultPage";
+import { MyPage } from "./pages/my/MyPage";
+import { SkinInfoEditPage } from "./pages/my/SkinInfoEditPage";
+import { FavoriteTrackingPage } from "./pages/my/FavoriteTrackingPage";
+import { FavoriteProductsPage } from "./pages/my/FavoriteProductsPage";
+import { PriceTrackingAddPage } from "./pages/priceTracking/PriceTrackingAddPage";
+import { PriceHistoryPage } from "./pages/priceTracking/PriceHistoryPage";
 
 export const router = createBrowserRouter([
   {
@@ -80,5 +86,29 @@ export const router = createBrowserRouter([
   {
     path: "/recommendation/result",
     element: <RecommendationResultPage />,
+  },
+  {
+    path: "/my",
+    element: <MyPage />,
+  },
+  {
+    path: "/my/skin",
+    element: <SkinInfoEditPage />,
+  },
+  {
+    path: "/favorites",
+    element: <FavoriteTrackingPage />,
+  },
+  {
+    path: "/favorites/products",
+    element: <FavoriteProductsPage />,
+  },
+  {
+    path: "/price-tracking/add",
+    element: <PriceTrackingAddPage />,
+  },
+  {
+    path: "/price-tracking/:productId",
+    element: <PriceHistoryPage />,
   },
 ]);

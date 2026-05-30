@@ -52,11 +52,10 @@ public class RegisteredProductServiceImpl implements RegisteredProductService {
             product = productRepository.save(product);
 
             ProductInsight insight = ProductInsight.builder()
-                    .productId(product.getId())
+                    .product(product)
                     .lowestPrice(request.getLowestPrice())
-                    .currentPrice(request.getLowestPrice())
-                    .createdAt(now)
-                    .updatedAt(now)
+                    .originalPrice(request.getLowestPrice())
+                    .lastUpdatedAt(now)
                     .build();
             productInsightRepository.save(insight);
         }

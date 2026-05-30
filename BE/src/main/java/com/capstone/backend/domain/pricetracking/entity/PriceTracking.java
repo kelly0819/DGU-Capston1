@@ -38,6 +38,9 @@ public class PriceTracking {
     @Column(name = "is_achieved", nullable = false)
     private boolean isAchieved;
 
+    @Column(name = "achieved_at")
+    private LocalDateTime achievedAt;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 

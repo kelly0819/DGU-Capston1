@@ -24,11 +24,11 @@ public class SkinProfileUpdateRequest {
             "PORE", "DARK_CIRCLE", "REDNESS", "TEXTURE", "WRINKLE");
 
     public boolean isValid() {
-        if (personalColor != null && !VALID_PERSONAL_COLORS.contains(personalColor)) return false;
-        if (skinType != null && !VALID_SKIN_TYPES.contains(skinType)) return false;
+        if (personalColor != null && !VALID_PERSONAL_COLORS.contains(personalColor.trim())) return false;
+        if (skinType != null && !VALID_SKIN_TYPES.contains(skinType.trim())) return false;
         if (skinConcerns != null) {
             for (String c : skinConcerns) {
-                if (!VALID_SKIN_CONCERNS.contains(c)) return false;
+                if (!VALID_SKIN_CONCERNS.contains(c.trim())) return false;
             }
         }
         return true;

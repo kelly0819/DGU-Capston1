@@ -1,5 +1,7 @@
 package com.capstone.backend.domain.product.service;
 
+import com.capstone.backend.common.exception.BusinessException;
+import com.capstone.backend.common.exception.ErrorCode;
 import com.capstone.backend.domain.product.dto.ProductDto;
 import com.capstone.backend.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +17,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto.Response getProduct(Long productId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new BusinessException(ErrorCode.NOT_FOUND);
     }
 
     @Override
     public List<ProductDto.Response> searchProducts(String keyword) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new BusinessException(ErrorCode.NOT_FOUND);
     }
 
     @Override
     public List<ProductDto.Response> getProductsByCategory(String category) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new BusinessException(ErrorCode.NOT_FOUND);
     }
 }

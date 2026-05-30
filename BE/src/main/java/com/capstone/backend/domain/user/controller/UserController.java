@@ -3,9 +3,7 @@ package com.capstone.backend.domain.user.controller;
 import com.capstone.backend.common.response.ApiResponse;
 import com.capstone.backend.domain.user.dto.request.PreferencesRequest;
 import com.capstone.backend.domain.user.dto.request.PreferenceUpdateRequest;
-import com.capstone.backend.domain.user.dto.request.SkinProfileRequest;
 import com.capstone.backend.domain.user.dto.request.SkinProfileUpdateRequest;
-import com.capstone.backend.domain.user.dto.response.OnboardingCompleteResponse;
 import com.capstone.backend.domain.user.dto.response.PreferenceResponse;
 import com.capstone.backend.domain.user.dto.response.ProfileUpdateResponse;
 import com.capstone.backend.domain.user.dto.response.SkinProfileResponse;
@@ -43,27 +41,10 @@ public class UserController {
     @PatchMapping(value = "/users/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<ProfileUpdateResponse>> updateMyProfile(
             @AuthenticationPrincipal UUID userId,
-            @RequestPart(value = "name") String name,
+            @RequestPart(value = "name", required = false) String name,
             @RequestPart(value = "gender", required = false) String gender,
             @RequestPart(value = "image", required = false) MultipartFile image) {
         return ResponseEntity.ok(ApiResponse.success(userService.updateMyProfile(userId, name, gender, image)));
-    }
-
-
-    @Operation(summary = "온보딩 완료 처리")
-    @PatchMapping("/onboarding")
-    public ResponseEntity<ApiResponse<OnboardingCompleteResponse>> completeOnboarding(
-            @AuthenticationPrincipal UUID userId) {
-        return ResponseEntity.ok(ApiResponse.success(userService.completeOnboarding(userId)));
-    }
-
-    @Operation(summary = "피부 정보 저장 (온보딩)")
-    @PostMapping("/onboarding/skin-profile")
-    public ResponseEntity<ApiResponse<SkinProfileResponse>> saveSkinProfile(
-            @AuthenticationPrincipal UUID userId,
-            @RequestBody SkinProfileRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(userProfileService.saveSkinProfile(userId, request)));
     }
 
     @Operation(summary = "피부 정보 수정")
@@ -72,6 +53,23 @@ public class UserController {
             @AuthenticationPrincipal UUID userId,
             @RequestBody SkinProfileUpdateRequest request) {
         return ResponseEntity.ok(ApiResponse.success(userProfileService.updateSkinProfile(userId, request)));
+    }
+
+    @Operation(summary = "선호 정보 저장 (최초)")
+    @PostMapping("/users/me/preferences")
+    public ResponseEntity<ApiResponse<PreferenceResponse>> savePreferences(
+            @AuthenticationPrincipal UUID userId,
+            @RequestBody PreferencesRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(userProfileService.savePreferences(userId, request)));
+    }
+
+    @Operation(summary = "선호 정보 수정")
+    @PatchMapping("/users/me/preferences")
+    public ResponseEntity<ApiResponse<PreferenceResponse>> updatePreferences(
+            @AuthenticationPrincipal UUID userId,
+            @RequestBody PreferenceUpdateRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(userProfileService.updatePreferences(userId, request)));
     }
 
 }

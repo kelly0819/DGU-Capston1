@@ -17,7 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/onboarding/favorites/items")
 @RequiredArgsConstructor
-@Tag(name = "3. Onboarding", description = "온보딩 - 자주 쓰는 제품 API")
+@Tag(name = "3. Onboarding", description = "온보딩 API")
 public class RegisteredProductController {
 
     private final RegisteredProductService registeredProductService;

@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProductInsightRepository extends JpaRepository<ProductInsight, UUID> {
-    Optional<ProductInsight> findByProductId(UUID productId);
+    Optional<ProductInsight> findByProduct_Id(UUID productId);
 }

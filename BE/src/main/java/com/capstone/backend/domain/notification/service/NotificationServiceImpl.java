@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -57,5 +58,20 @@ public class NotificationServiceImpl implements NotificationService {
             throw new BusinessException(ErrorCode.NOT_FOUND);
         }
         return notificationId;
+    }
+
+    @Override
+    @Transactional
+    public NotificationResponse createTestNotification(UUID userId, String type, String title, String body, String actionUrl) {
+        Notification notification = Notification.builder()
+                .userId(userId)
+                .type(type)
+                .title(title)
+                .body(body)
+                .isRead(false)
+                .actionUrl(actionUrl)
+                .createdAt(LocalDateTime.now())
+                .build();
+        return NotificationResponse.from(notificationRepository.save(notification));
     }
 }

@@ -8,11 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SocialLoginRequest {
 
-    @NotBlank(message = "provider는 필수입니다.")
-    private String provider;  // KAKAO | GOOGLE | APPLE
-
-    @NotBlank(message = "accessToken은 필수입니다.")
-    private String accessToken;
+    @NotBlank(message = "code는 필수입니다.")
+    private String code;      // 카카오 인가 코드 (authorization code)
 
     private String fcmToken;
 }

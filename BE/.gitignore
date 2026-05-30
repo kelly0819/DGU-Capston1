@@ -41,3 +41,5 @@ application-local.yml
 application-prod.yml
 .env
 
+# 도커
+docker-compose.yml

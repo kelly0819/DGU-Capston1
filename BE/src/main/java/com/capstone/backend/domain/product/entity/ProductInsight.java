@@ -1,8 +1,11 @@
 package com.capstone.backend.domain.product.entity;
 
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -19,18 +22,42 @@ public class ProductInsight {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "product_id", nullable = false, unique = true)
-    private UUID productId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false, unique = true)
+    private Product product;
+
+    @Column(name = "original_price")
+    private Integer originalPrice;
 
     @Column(name = "lowest_price")
     private Integer lowestPrice;
 
-    @Column(name = "current_price")
-    private Integer currentPrice;
+    @Column(name = "savings")
+    private Integer savings;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @Type(JsonType.class)
+    @Column(name = "stores", columnDefinition = "jsonb")
+    private String stores;
 
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @Column(name = "review_summary")
+    private String reviewSummary;
+
+    @Column(name = "average_score")
+    private BigDecimal averageScore;
+
+    @Column(name = "review_count")
+    private Integer reviewCount;
+
+    @Type(JsonType.class)
+    @Column(name = "skin_type_satisfaction", columnDefinition = "jsonb")
+    private String skinTypeSatisfaction;
+
+    @Column(name = "last_updated_at", nullable = false)
+    private LocalDateTime lastUpdatedAt;
+
+    public void updatePriceData(Integer lowestPrice, String stores) {
+        if (lowestPrice != null) this.lowestPrice = lowestPrice;
+        if (stores != null) this.stores = stores;
+        this.lastUpdatedAt = LocalDateTime.now();
+    }
 }

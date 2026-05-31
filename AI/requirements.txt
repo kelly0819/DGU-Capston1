@@ -28,3 +28,4 @@ redis
 
 # HTTP client
 httpx
+cloudscraper

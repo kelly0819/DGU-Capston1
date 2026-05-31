@@ -24,3 +24,16 @@ openai>=1.0.0
 # Testing
 pytest>=8.0.0
 pytest-asyncio>=0.23.0
+
+# LangChain / LangGraph
+langchain-core
+langchain-openai
+langchain-google-genai
+langgraph
+
+# Redis (input_agent cache)
+redis
+
+# HTTP client
+httpx
+cloudscraper

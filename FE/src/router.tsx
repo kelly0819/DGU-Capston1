@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { LoginPage } from "./pages/auth/LoginPage";
+import { KakaoCallbackPage } from "./pages/auth/KakaoCallbackPage";
 import { ProfileSetupPage } from "./pages/onboarding/ProfileSetupPage";
 import { PreferenceSetupPage } from "./pages/onboarding/PreferenceSetupPage";
 import { KnownProductSetupPage } from "./pages/onboarding/KnownProductSetupPage";
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginPage />,
+  },
+  {
+    path: "/auth/social",
+    element: <KakaoCallbackPage />,
   },
   {
     path: "/onboarding/profile",

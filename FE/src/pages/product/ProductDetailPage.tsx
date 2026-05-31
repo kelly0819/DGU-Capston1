@@ -1,4 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { recordProductView } from "../../api/productApi";
 import { Badge } from "../../components/common/Badge";
 import { PageHeader } from "../../components/common/PageHeader";
 import { ProductThumbnail } from "../../components/common/ProductThumbnail";
@@ -7,6 +9,13 @@ import { productDetailStores } from "../../mocks/products";
 
 export function ProductDetailPage() {
   const navigate = useNavigate();
+  const { productId } = useParams<{ productId: string }>();
+
+  useEffect(() => {
+    if (productId) {
+      recordProductView(productId).catch(() => {});
+    }
+  }, [productId]);
 
   return (
     <AppLayout>

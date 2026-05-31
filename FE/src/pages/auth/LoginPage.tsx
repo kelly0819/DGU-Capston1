@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import AppLayout from "../../layouts/AppLayout";
 
 const KAKAO_AUTH_URL =
@@ -8,7 +8,6 @@ const KAKAO_AUTH_URL =
   `&response_type=code`;
 
 export function LoginPage() {
-  const navigate = useNavigate();
 
   return (
     <AppLayout>

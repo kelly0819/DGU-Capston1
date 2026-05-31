@@ -1,7 +1,40 @@
+import { useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getRecommendationStatus } from "../../api/recommendationApi";
 import AppLayout from "../../layouts/AppLayout";
 import { agentTools } from "../../mocks/recommendations";
 
 export function RecommendationLoadingPage() {
+  const navigate = useNavigate();
+  const { state } = useLocation() as { state: { jobId?: string } | null };
+  const jobId = state?.jobId;
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (!jobId) return;
+
+    timerRef.current = setInterval(async () => {
+      try {
+        const res = await getRecommendationStatus(jobId);
+        const { status } = res.data;
+        if (status === "COMPLETED") {
+          clearInterval(timerRef.current!);
+          navigate("/recommendation/result", { state: { jobId }, replace: true });
+        } else if (status === "FAILED") {
+          clearInterval(timerRef.current!);
+          alert("추천 분석에 실패했어요. 다시 시도해주세요.");
+          navigate(-1);
+        }
+      } catch {
+        // 네트워크 오류 시 계속 폴링
+      }
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [jobId, navigate]);
+
   return (
     <AppLayout>
       <section className="flex min-h-screen flex-col px-6 pb-10 pt-10">
@@ -44,7 +77,6 @@ function AgentToolFlow() {
         </div>
         <span className="agent-thinking-dot" />
       </div>
-
       <ol className="grid gap-2">
         {agentTools.map((tool, index) => (
           <li className="agent-tool-step" key={tool.name} style={{ animationDelay: `${index * 1.15}s` }}>

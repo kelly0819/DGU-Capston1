@@ -1,13 +1,41 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { requestRecommendation } from "../../api/recommendationApi";
 import { PageHeader } from "../../components/common/PageHeader";
 import AppLayout from "../../layouts/AppLayout";
 import { recommendationPriceRanges, recommendationReasons } from "../../mocks/recommendations";
 
 export function ExtraInfoPage() {
   const navigate = useNavigate();
+  const { state } = useLocation() as { state: { productId?: string } | null };
+  const productId = state?.productId;
+
   const [reason, setReason] = useState("데일리");
   const [priceRange, setPriceRange] = useState("balanced");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit() {
+    if (!productId) return;
+    setLoading(true);
+    try {
+      const res = await requestRecommendation(productId, reason, priceRange);
+      navigate("/recommendation/loading", {
+        state: { jobId: res.data.jobId },
+      });
+    } catch {
+      alert("추천 요청에 실패했어요. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleSkip() {
+    if (productId) {
+      handleSubmit();
+    } else {
+      navigate("/recommendation/loading", { state: {} });
+    }
+  }
 
   return (
     <AppLayout>
@@ -16,7 +44,12 @@ export function ExtraInfoPage() {
           title="추가 정보 입력"
           onBack={() => navigate(-1)}
           rightSlot={
-            <button className="text-body2 text-primary-500" onClick={() => navigate("/recommendation/loading")} type="button">
+            <button
+              className="text-body2 text-primary-500"
+              onClick={handleSkip}
+              disabled={loading}
+              type="button"
+            >
               건너뛰기
             </button>
           }
@@ -68,7 +101,6 @@ export function ExtraInfoPage() {
         <div className="mt-6 grid grid-cols-5 gap-2">
           {recommendationPriceRanges.map((item) => {
             const selected = priceRange === item.id;
-
             return (
               <button
                 className={`h-[84px] rounded-xl text-center ${
@@ -93,17 +125,24 @@ export function ExtraInfoPage() {
         <div className="mt-16 border-l-4 border-primary-500 bg-primary-50 px-4 py-3">
           <p className="text-body2 text-primary-500">✦ AI Tip</p>
           <p className="mt-1 text-caption leading-5 text-gray-500">
-            허용 폭이 넓을수록 더 다양한 대체 상품을 발견할 수 있어요. 나중에 언제든 바꿀 수 있어요.
+            허용 폭이 넓을수록 더 다양한 대체 상품을 발견할 수 있어요.
           </p>
         </div>
 
         <button
-          className="mt-auto h-14 w-full rounded-xl bg-primary-500 text-body1 font-semibold text-white"
-          onClick={() => navigate("/recommendation/loading")}
+          className="mt-auto h-14 w-full rounded-xl bg-primary-500 text-body1 font-semibold text-white disabled:opacity-50"
+          disabled={loading || !productId}
+          onClick={handleSubmit}
           type="button"
         >
-          추천 받기 ✦
+          {loading ? "요청 중..." : "추천 받기 ✦"}
         </button>
+
+        {!productId && (
+          <p className="mt-2 text-center text-caption text-gray-300">
+            제품 조회 후 추천을 받을 수 있어요
+          </p>
+        )}
       </section>
     </AppLayout>
   );

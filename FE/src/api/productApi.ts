@@ -5,6 +5,23 @@ interface ApiResponse<T> {
   data: T;
 }
 
+export interface ProductDetail {
+  productId: string;
+  name: string;
+  brand: string;
+  category: string | null;
+  imageUrl: string | null;
+  originalPrice: number | null;
+  lowestPrice: number | null;
+  featureJson: unknown;
+  reviewSummary: string | null;
+  averageScore: number | null;
+  reviewCount: number | null;
+}
+
+export const getProductDetail = (productId: string) =>
+  api.get<ApiResponse<ProductDetail>>(`/products/${productId}`);
+
 export interface RecognizeResult {
   productId: string;
   name: string;
@@ -21,7 +38,7 @@ export interface ProductSearchItem {
   originalPrice?: number | null;
 }
 
-export const recognizeProduct = (type: "IMAGE" | "TEXT", data: string) =>
+export const recognizeProduct = (type: "IMAGE" | "TEXT" | "NFC", data: string) =>
   api.post<ApiResponse<RecognizeResult>>("/products/recognize", { type, data });
 
 export const searchProducts = (keyword: string) =>

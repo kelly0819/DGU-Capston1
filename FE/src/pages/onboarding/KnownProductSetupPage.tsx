@@ -1,10 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
-
-const registeredProducts = [
-  { name: "LANEIGE 네오쿠션 21N", brand: "라네즈 · 쿠션" },
-  { name: "이니스프리 그린티 세럼", brand: "이니스프리 · 세럼" },
-];
+import { onboardingRegisteredProducts } from "../../mocks/products";
 
 export function KnownProductSetupPage() {
   const navigate = useNavigate();
@@ -56,7 +52,7 @@ export function KnownProductSetupPage() {
 
           <p className="mt-4 text-body2 text-gray-500">등록된 제품 2개</p>
           <div className="mt-3 grid gap-3">
-            {registeredProducts.map((product) => (
+            {onboardingRegisteredProducts.map((product) => (
               <div
                 className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3"
                 key={product.name}

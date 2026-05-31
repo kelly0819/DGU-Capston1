@@ -1,16 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { PageHeader } from "../../components/common/PageHeader";
+import { ProductThumbnail } from "../../components/common/ProductThumbnail";
+import { SearchField } from "../../components/common/SearchField";
 import AppLayout from "../../layouts/AppLayout";
-
-const products = [
-  { name: "그린티 세럼", meta: "이니스프리 · 스킨케어 · 세럼", added: true },
-  { name: "그린티 씨드 크림", meta: "이니스프리 · 스킨케어 · 세럼" },
-  { name: "화산송이 모공 폼", meta: "이니스프리 · 클렌징" },
-];
-
-const recentProducts = [
-  { name: "그린티 세럼", brand: "이니스프리", green: true },
-  { name: "네오쿠션 21N", brand: "라네즈" },
-];
+import { onboardingRecentProducts, onboardingSearchProducts } from "../../mocks/products";
 
 export function ProductSearchSetupPage() {
   const navigate = useNavigate();
@@ -18,29 +11,14 @@ export function ProductSearchSetupPage() {
   return (
     <AppLayout>
       <section className="flex min-h-screen flex-col px-6 pb-6 pt-10">
-        <header className="relative flex h-6 items-center justify-center">
-          <button
-            className="absolute left-0 text-h3 text-gray-500"
-            onClick={() => navigate(-1)}
-            type="button"
-            aria-label="뒤로가기"
-          >
-            ←
-          </button>
-          <h1 className="text-body1 text-gray-500">제품 검색</h1>
-        </header>
+        <PageHeader title="제품 검색" onBack={() => navigate(-1)} />
 
-        <div className="mt-5 flex h-12 items-center gap-3 rounded-xl border border-primary-500 bg-primary-50 px-4">
-          <div className="h-5 w-5 rounded bg-primary-100" />
-          <span className="flex-1 text-body2 text-gray-500">이니스프리</span>
-          <button
-            className="h-6 w-6 rounded-full bg-gray-200 text-gray-300"
-            onClick={() => navigate("/onboarding/search-empty")}
-            type="button"
-            aria-label="검색어 지우기"
-          >
-            ×
-          </button>
+        <div className="mt-5">
+          <SearchField
+            value="이니스프리"
+            variant="outlined"
+            onClear={() => navigate("/onboarding/search-empty")}
+          />
         </div>
 
         <div className="mt-4 flex items-center justify-between">
@@ -51,18 +29,12 @@ export function ProductSearchSetupPage() {
         </div>
 
         <div className="mt-3 grid gap-3">
-          {products.map((product) => (
+          {onboardingSearchProducts.map((product) => (
             <div
               className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-3"
               key={product.name}
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary-50">
-                <div
-                  className={`h-9 w-9 rounded-md ${
-                    product.added ? "bg-primary-100" : "bg-gray-200"
-                  }`}
-                />
-              </div>
+              <ProductThumbnail className="h-14 w-14 shrink-0 bg-primary-50" green={product.added} size="sm" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-body2 text-gray-500">{product.name}</p>
                 <p className="truncate text-caption text-gray-300">{product.meta}</p>
@@ -84,18 +56,12 @@ export function ProductSearchSetupPage() {
 
         <p className="mt-5 text-body2 text-gray-500">최근 추가한 제품</p>
         <div className="mt-3 flex gap-3">
-          {recentProducts.map((product) => (
+          {onboardingRecentProducts.map((product) => (
             <div
               className="w-[102px] rounded-xl border border-gray-200 bg-white p-2 text-center"
               key={product.name}
             >
-              <div className="flex h-[62px] items-center justify-center rounded-lg bg-gray-100">
-                <div
-                  className={`h-11 w-14 rounded-md ${
-                    product.green ? "bg-primary-100" : "bg-gray-200"
-                  }`}
-                />
-              </div>
+              <ProductThumbnail className="h-[62px] rounded-lg" green={product.green} size="lg" />
               <p className="mt-2 truncate text-caption text-gray-500">{product.name}</p>
               <p className="truncate text-caption text-gray-300">{product.brand}</p>
             </div>

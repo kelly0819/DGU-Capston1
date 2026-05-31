@@ -5,9 +5,10 @@ class Settings(BaseSettings):
     DASHSCOPE_API_KEY: str
     QWEN_VL_BASE_URL: str = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
     QWEN_VL_MODEL: str = "qwen2.5-vl-7b-instruct"
+    QWEN_TEXT_MODEL: str = "qwen-plus"  # 텍스트 전용 (검색 쿼리 feature 추출용)
 
     GEMINI_API_KEY: str
-    GEMINI_MODEL: str = "gemini-2.0-flash"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
 
     # Supabase
     SUPABASE_URL: str

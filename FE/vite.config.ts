@@ -22,6 +22,11 @@ export default defineConfig({
       "/onboarding": "http://localhost:8080",
       "/wishlist": "http://localhost:8080",
       "/price-tracking": "http://localhost:8080",
+      "/ai": {
+        target: "http://localhost:8001",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ai/, ""),
+      },
     },
   },
 });

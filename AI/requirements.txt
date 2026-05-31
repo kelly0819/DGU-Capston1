@@ -37,3 +37,6 @@ redis
 # HTTP client
 httpx
 cloudscraper
+
+# Openai
+openai>=1.30.0

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 
 const KAKAO_AUTH_URL =
@@ -7,6 +8,8 @@ const KAKAO_AUTH_URL =
   `&response_type=code`;
 
 export function LoginPage() {
+  const navigate = useNavigate();
+
   return (
     <AppLayout>
       <section className="flex min-h-screen flex-col bg-white">
@@ -44,7 +47,7 @@ export function LoginPage() {
         </div>
 
         <div className="mt-auto px-6 pb-5">
-          <p className="mt-9 text-center text-caption text-gray-200">
+          <p className="mt-3 text-center text-caption text-gray-200">
             로그인 시 이용약관 및 개인정보처리방침에 동의합니다
           </p>
         </div>

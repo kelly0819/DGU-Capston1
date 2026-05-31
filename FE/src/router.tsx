@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { AuthGuard } from "./components/common/AuthGuard";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { KakaoCallbackPage } from "./pages/auth/KakaoCallbackPage";
 import { ProfileSetupPage } from "./pages/onboarding/ProfileSetupPage";
@@ -24,96 +25,35 @@ import { PriceTrackingAddPage } from "./pages/priceTracking/PriceTrackingAddPage
 import { PriceHistoryPage } from "./pages/priceTracking/PriceHistoryPage";
 
 export const router = createBrowserRouter([
+  // 인증 불필요
+  { path: "/", element: <LoginPage /> },
+  { path: "/auth/social", element: <KakaoCallbackPage /> },
+
+  // 인증 필요 (AuthGuard로 감싸진 라우트)
   {
-    path: "/",
-    element: <LoginPage />,
-  },
-  {
-    path: "/auth/social",
-    element: <KakaoCallbackPage />,
-  },
-  {
-    path: "/onboarding/profile",
-    element: <ProfileSetupPage />,
-  },
-  {
-    path: "/onboarding/preference",
-    element: <PreferenceSetupPage />,
-  },
-  {
-    path: "/onboarding/products",
-    element: <KnownProductSetupPage />,
-  },
-  {
-    path: "/onboarding/photo",
-    element: <PhotoRegisterPage />,
-  },
-  {
-    path: "/onboarding/product-search",
-    element: <ProductSearchSetupPage />,
-  },
-  {
-    path: "/onboarding/search-empty",
-    element: <SearchEmptyPage />,
-  },
-  {
-    path: "/onboarding/complete",
-    element: <OnboardingCompletePage />,
-  },
-  {
-    path: "/home",
-    element: <HomePage />,
-  },
-  {
-    path: "/search",
-    element: <SearchResultPage />,
-  },
-  {
-    path: "/product/:productId",
-    element: <ProductDetailPage />,
-  },
-  {
-    path: "/notifications",
-    element: <NotificationPage />,
-  },
-  {
-    path: "/recommendation/lookup",
-    element: <ProductLookupPage />,
-  },
-  {
-    path: "/recommendation/extra-info",
-    element: <ExtraInfoPage />,
-  },
-  {
-    path: "/recommendation/loading",
-    element: <RecommendationLoadingPage />,
-  },
-  {
-    path: "/recommendation/result",
-    element: <RecommendationResultPage />,
-  },
-  {
-    path: "/my",
-    element: <MyPage />,
-  },
-  {
-    path: "/my/skin",
-    element: <SkinInfoEditPage />,
-  },
-  {
-    path: "/favorites",
-    element: <FavoriteTrackingPage />,
-  },
-  {
-    path: "/favorites/products",
-    element: <FavoriteProductsPage />,
-  },
-  {
-    path: "/price-tracking/add",
-    element: <PriceTrackingAddPage />,
-  },
-  {
-    path: "/price-tracking/:productId",
-    element: <PriceHistoryPage />,
+    element: <AuthGuard />,
+    children: [
+      { path: "/onboarding/profile", element: <ProfileSetupPage /> },
+      { path: "/onboarding/preference", element: <PreferenceSetupPage /> },
+      { path: "/onboarding/products", element: <KnownProductSetupPage /> },
+      { path: "/onboarding/photo", element: <PhotoRegisterPage /> },
+      { path: "/onboarding/product-search", element: <ProductSearchSetupPage /> },
+      { path: "/onboarding/search-empty", element: <SearchEmptyPage /> },
+      { path: "/onboarding/complete", element: <OnboardingCompletePage /> },
+      { path: "/home", element: <HomePage /> },
+      { path: "/search", element: <SearchResultPage /> },
+      { path: "/product/:productId", element: <ProductDetailPage /> },
+      { path: "/notifications", element: <NotificationPage /> },
+      { path: "/recommendation/lookup", element: <ProductLookupPage /> },
+      { path: "/recommendation/extra-info", element: <ExtraInfoPage /> },
+      { path: "/recommendation/loading", element: <RecommendationLoadingPage /> },
+      { path: "/recommendation/result", element: <RecommendationResultPage /> },
+      { path: "/my", element: <MyPage /> },
+      { path: "/my/skin", element: <SkinInfoEditPage /> },
+      { path: "/favorites", element: <FavoriteTrackingPage /> },
+      { path: "/favorites/products", element: <FavoriteProductsPage /> },
+      { path: "/price-tracking/add", element: <PriceTrackingAddPage /> },
+      { path: "/price-tracking/:productId", element: <PriceHistoryPage /> },
+    ],
   },
 ]);
